@@ -10,10 +10,13 @@ using SfSdk.Data;
 
 namespace SfSdk.Providers
 {
+    /// <summary>
+    ///     A service to receive information about countries where S&amp;F is available.
+    /// </summary>
     public class CountryProvider : ICountryProvider
     {
         private static string _response;
-
+        
         public async Task<IEnumerable<ICountry>> GetCountriesAsync(bool forceRefresh = false)
         {
             if (_response == null || forceRefresh)
@@ -61,6 +64,7 @@ namespace SfSdk.Providers
 
         private static async Task<ICountry> CreateCountryAsync(HtmlNode node, bool forceRefresh)
         {
+            // TODO catch exceptions?
             var name = node.Attributes.Where(a => a.Name == "title").Select(a => a.Value).FirstOrDefault();
             var url = node.Attributes.Where(a => a.Name == "onclick").Select(a => a.Value).FirstOrDefault();
             Uri uri = null;

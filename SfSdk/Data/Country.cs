@@ -7,13 +7,14 @@ using SfSdk.Contracts;
 
 namespace SfSdk.Data
 {
+    /// <summary>
+    ///     Implements the functionality of creating a new <see cref="ICountry"/>.
+    /// </summary>
     [Serializable]
     internal class Country : ICountry
     {
         private Country(string name, Uri uri)
         {
-            if (name == null) throw new ArgumentNullException("name");
-            if (uri == null) throw new ArgumentNullException("uri");
             Name = name;
             Uri = uri;
         }
@@ -22,10 +23,19 @@ namespace SfSdk.Data
         public Uri Uri { get; private set; }
         public IList<IServer> Servers { get; private set; }
 
-        internal static async Task<Country> CreateAsync(string name, Uri uri, bool forceRefresh = false)
+        /// <summary>
+        ///     Creates an <see cref="ICountry"/>.
+        /// </summary>
+        /// <param name="name">The country's name.</param>
+        /// <param name="uri">The country's <see cref="Uri"/></param>
+        /// <param name="forceRefresh">Indicates whether the country's details shall be re-requested or the cached results shall be returned.</param>
+        /// <returns>A <see cref="ICountry"/>.</returns>
+        public static async Task<ICountry> CreateAsync(string name, Uri uri, bool forceRefresh = false)
         {
-            var country = new Country(name, uri);
-            country.Servers = (await Server.CreateServersAsync(country, forceRefresh)).ToList<IServer>();
+            if (uri == null) throw new ArgumentNullException("uri");
+
+            var country = new Country(name ?? uri.ToString(), uri);
+            country.Servers = (await Server.CreateServersAsync(country, forceRefresh)).ToList();
             return country;
         }
 
