@@ -3,11 +3,26 @@ using System.Collections.Generic;
 using SfSdk.Constants;
 
 namespace SfSdk.Response
-{
+{    /// <summary>
+    ///     A S&amp;F response.
+    /// </summary>
+    internal interface ISfResponse
+    {
+        /// <summary>
+        ///     Contains errors as <see cref="string" /> if the request failed.
+        /// </summary>
+        List<string> Errors { get; }
+
+        /// <summary>
+        ///     Contains a response as <see cref="IResponse" />.
+        /// </summary>
+        IResponse Response { get; }
+    }
+
     /// <summary>
     ///     Provides easier processing of response strings from the S&amp;F servers.
     /// </summary>
-    internal class SfResponse
+    internal class SfResponse : ISfResponse
     {
         /// <summary>
         ///     Creates a new <see cref="SfResponse" />.
@@ -88,6 +103,8 @@ namespace SfSdk.Response
                     Response = new LogoutResponse(args);
                     break;
                 case SF.ActScreenChar:
+                    Response = new CharacterResponse(args);
+                    break;
                 case SF.RespPlayerScreen:
                     Response = new CharacterResponse(args);
                     break;
