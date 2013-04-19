@@ -1,18 +1,16 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using SfSdk.DataSource;
+using SfSdk.Constants;
 using SfSdk.Request;
 using SfSdk.Response;
 
 namespace SfSdk.Tests
 {
-    internal class TestRequestSource : RequestSourceBase
+    internal class TestRequestSource : IRequestSource
     {
-        public TestRequestSource(SnFUriFactory uriFactory) : base(uriFactory)
-        {
-        }
-
-        public override async Task<SfResponse> RequestAsync()
+#pragma warning disable 1998
+        public async Task<ISfResponse> RequestAsync(string sessionId, SF action, IEnumerable<string> args = null)
+#pragma warning restore 1998
         {
             return new SfResponse(string.Empty);
         }

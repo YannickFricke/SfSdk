@@ -11,6 +11,8 @@
     <AssemblyName>SfSdk</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -38,7 +40,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="HtmlAgilityPack">
-      <HintPath>packages\HtmlAgilityPack.1.4.6\lib\Net45\HtmlAgilityPack.dll</HintPath>
+      <HintPath>..\packages\HtmlAgilityPack.1.4.6\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="NLog">
       <HintPath>..\packages\NLog.2.0.1.2\lib\net45\NLog.dll</HintPath>
@@ -56,15 +58,15 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Data\Character.cs" />
-    <Compile Include="DataSource\IRequestSource.cs" />
-    <Compile Include="Request\IUriFactory.cs" />
+    <Compile Include="Request\IRequestSource.cs" />
+    <Compile Include="Request\IUriWrapper.cs" />
     <Compile Include="Logging\Logging.cs" />
     <Compile Include="Logging\NLogLogger.cs" />
-    <Compile Include="DataSource\RequestSourceBase.cs" />
-    <Compile Include="Request\SnFUriFactory.cs" />
-    <Compile Include="DataSource\SnFRequestSource.cs" />
+    <Compile Include="Request\SnFUriWrapper.cs" />
+    <Compile Include="Request\SnFRequestSource.cs" />
     <Compile Include="Response\CharacterResponse.cs" />
     <Compile Include="Response\ResponseBase.cs" />
+    <Compile Include="Response\ResponseWithSavegame.cs" />
     <Compile Include="Response\Savegame.cs" />
     <Compile Include="Constants\SfClass.cs" />
     <Compile Include="Contracts\ICharacter.cs" />
@@ -92,9 +94,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SF.cs</LastGenOutput>
     </None>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="packages.config" />
     <None Include="SfSdk.config" />
   </ItemGroup>
   <ItemGroup>
@@ -105,6 +105,7 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
